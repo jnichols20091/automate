@@ -1,19 +1,18 @@
-from playwright.sync_api import sync_playwright
+from selenium import webdriver, common
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait, Select, Select
 import time
 
 
-class PlayInstance:
-    def __init__(self):
-        self.playwright = sync_playwright().start()
-        self.browser = self.playwright.chromium.launch(headless=False, slow_mo=50, timeout=100000000)
-        self.page = self.browser.new_page()
 
 
-    def start_browser(self):
-        self.page.goto("https://www.abbeyresidential.com/apartments/al/hoover/riverchase/contact-us")
-        self.page.click("span")
-        self.page.fill("#contact-resident-name-lead-form-1953415", "playwright")
-        time.sleep(1000)
-
-start = PlayInstance()
-start.start_browser()
+driver = webdriver.Firefox()
+driver.get("https://www.abbeyresidential.com/apartments/al/hoover/riverchase/contact-us")
+time.sleep(5)
+poploc = driver.find_element(By.CSS_SELECTOR, ".close-btn")
+ActionChains(driver).move_to_element(poploc).click(poploc).perform()
+time.sleep(2)
+fillna = driver.find_element(By.CSS_SELECTOR, "#contact-resident-name-lead-form-1953415")
+ActionChains(driver).move_to_element(fillna).click(fillna).perform()
+ActionChains(driver).send_keys("test").perform()
